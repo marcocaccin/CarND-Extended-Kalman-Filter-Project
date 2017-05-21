@@ -75,9 +75,9 @@ void KalmanFilter::UpdateCommon(const VectorXd &y,
                                 const MatrixXd &R) {
   // Get to the Kalman matrix
   MatrixXd Ht = H.transpose();
-  MatrixXd S = H * P_ * Ht + R;
-  MatrixXd Si = S.inverse();
   MatrixXd PHt = P_ * Ht;
+  MatrixXd S = H * PHt + R;
+  MatrixXd Si = S.inverse();
   MatrixXd K = PHt * Si;
   // New estimate
   x_ = x_ + (K * y);
