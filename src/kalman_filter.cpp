@@ -62,7 +62,11 @@ void KalmanFilter::Update(const VectorXd &z) {
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
   // Measurement residual y
   VectorXd y = z - Cartesian2Polar(x_);
-  y(1) = fmod(y(1), M_PI);
+
+  // Normalise angle
+  while (y(1) >   M_PI) y(1) -= 2. * M_PI;
+  while (y(1) <= -M_PI) y(1) += 2. * M_PI;
+
   // Measurement matrix
   MatrixXd Hj = CalculateJacobian(x_);
 
